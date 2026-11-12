@@ -1,38 +1,6 @@
 
 
 
-# Striker class
-class Striker:
-    def __init__(self, posx, posy, width, height, speed, color):
-        self.posx, self.posy = posx, posy
-        self.width, self.height = width, height
-        self.speed = speed
-        self.color = color
-
-        self.strikerRect = pygame.Rect(
-            self.posx, self.posy, self.width, self.height)
-
-    # Used to render the object on the screen with curved edges effect simulation
-    def display(self):
-        self.strikerRect = pygame.Rect(
-            self.posx, self.posy, self.width, self.height)
-        pygame.draw.rect(screen, self.color, self.strikerRect, border_radius=5)
-
-    # Used to update the state of the object
-    def update(self, xFac):
-        self.posx += self.speed * xFac
-
-        # Restricting the striker to be in between the edges
-        if self.posx <= 0:
-            self.posx = 0
-        elif self.posx + self.width >= WIDTH:
-            self.posx = WIDTH - self.width
-
-    # Returns the rect of the object
-    def getRect(self):
-        return self.strikerRect
-
-
 # Block Class
 class Block:
     def __init__(self, posx, posy, width, height, color):
@@ -138,33 +106,5 @@ def populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap):
                 Block(i, j, blockWidth, blockHeight, chosen_color))
 
     return listOfBlocks
-
-
-def gameOverScreen(score):
-    screen.fill(BLACK)
-    
-    overText = font_large.render("GAME OVER", True, NEON_RED)
-    overRect = overText.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 40))
-    
-    scoreText = font.render(f"Skor Akhir: {score}", True, WHITE)
-    scoreRect = scoreText.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 10))
-
-    restartText = font.render("Tekan [SPASI] untuk Main Lagi atau [ESC] untuk Keluar", True, NEON_BLUE)
-    restartRect = restartText.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 60))
-
-    screen.blit(overText, overRect)
-    screen.blit(scoreText, scoreRect)
-    screen.blit(restartText, restartRect)
-    pygame.display.flip()
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    return True
-                if event.key == pygame.K_ESCAPE:
-                    return False
 
 
